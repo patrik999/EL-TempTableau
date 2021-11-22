@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
-import getopt, sys
-import optparse
-import time
-from anytree import Node, NodeMixin, RenderTree
 import itertools
-import yaml
+import optparse
+
+from anytree import NodeMixin, RenderTree
 
 from util_mm import createClauseList, createTempRel, readIntervalDict
 
-class TableauBase(object): 
+
+class TableauBase(object):
 	test = 1
 
 class TableauNode(TableauBase, NodeMixin): 
