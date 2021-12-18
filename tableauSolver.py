@@ -11,22 +11,13 @@ from util_mm import createClauseList, createTempRel, readIntervalDict
 class TableauBase(object):
 	test = 1
 
-class TableauNode(TableauBase, NodeMixin): 
+class TableauBranch(TableauBase):
 
-	#nodeId = ""
-	negated = False
-	branchClosed = False
-	isLeaf = False
-	truthValues = []
-	mode = 0
-	tempRelation = ""
-	tempAtom1 = ""
-	tempIntervalsA1 = []
-	tempAssignA1 = ""
-	tempAtom2 = ""
-	tempeIntervalsA2 = []
-	tempAssignA2 = ""
-	#overwritten = False
+	def __init__(self):
+
+		self.closed = False
+
+class TableauNode(TableauBase, NodeMixin): 
 
 	def __init__(self, name,  parent=None, children=None, mode=0):
 
@@ -37,16 +28,21 @@ class TableauNode(TableauBase, NodeMixin):
 		# Check if it is a temporal clause
 
 		self.truthValues = []
-		self.negated = False
+		self.weakNegated = False
 		self.mode = mode
 		self.isLeaf = False
 		self.branchClosed = False
 		#self.overwritten = False
 		self.tempIntervalsA1 = []
 		self.tempIntervalsA2 = []
+		self.tempRelation = ""
+		self.tempAtom1 = ""
+		self.tempAtom2 = ""
+		self.tempAssignA1 = ""
+		self.tempAssignA2 = ""
 
 		if('-' in name):
-			self.negated = True
+			self.weakNegated = True
 		
 		self.parent = parent
 		if children:  # set children only if given
@@ -175,16 +171,7 @@ class TableauNode(TableauBase, NodeMixin):
 
 class TableauGenerator:
 
-	clauseList = []
-	#atomDict = {}
-	mode = 2 # 2 (binary) or 3-valued (el)
-	topAtom= ""
-	leafAtomsOpen =  []
-	atomToIntervalIdDict = {}
-
-	tempRels = {}
-	tempIntervals = {}
-	isTempMode = False
+	# mode is: 2 (binary) or 3-valued (el)
 	
 	def __init__(self, clauses, intervals, top, mde, tempMode):
 
@@ -192,6 +179,9 @@ class TableauGenerator:
 		self.mode = mde
 		self.topAtom = top
 		self.tempIntervals = intervals
+		self.leafAtomsOpen =  []
+		self.atomToIntervalIdDict = {}
+		self.tempRels = {}
 
 		#if(len(intervals)>0):
 		self.isTempMode = tempMode # True

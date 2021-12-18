@@ -5,8 +5,8 @@ import optparse
 import time
 
 from util_mm import createClauseList, createModelList
-from min_model_gen import MinModelGenerator
-from tableau import TableauGenerator
+from minModelGenerator import MinModelGenerator
+from tableauSolver import TableauGenerator
 
 def main(argv):
     parser = optparse.OptionParser()
